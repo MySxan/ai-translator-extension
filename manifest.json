@@ -3,6 +3,8 @@
   "name": "AI Translator Extension",
   "version": "1.0.0",
   "description": "A Chrome extension for AI-powered translation.",
+  "host_permissions": ["https://fanyi-api.baidu.com/*"],
+  "permissions": ["storage", "activeTab", "clipboardWrite", "scripting"],
   "background": {
     "service_worker": "background.js"
   },
@@ -26,6 +28,5 @@
     "32": "icons/icon32.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  },
-  "permissions": ["storage", "activeTab", "scripting"]
+  }
 }

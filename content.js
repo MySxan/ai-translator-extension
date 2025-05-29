@@ -1,44 +1,88 @@
-let selectedText = "";
-let displayBox = null;
-let selectionRange = null;
+let popup = null;
 let autoHideTimer = null;
 
-document.addEventListener("selectionchange", () => {
-  clearTimeout(autoHideTimer);
-
+// Listen for mouseup event and show the popup
+document.addEventListener("mouseup", async function () {
   const selection = window.getSelection();
-  const text = selection.toString().trim();
+  const selectedText = selection.toString().trim();
 
-  if (text.length > 2 && selection.rangeCount > 0) {
+  if (
+    selectedText.length > 2 &&
+    selectedText.length <= 300 &&
+    selection.rangeCount > 0
+  ) {
     const range = selection.getRangeAt(0);
     if (range.getClientRects().length === 0) return;
 
-    selectedText = text;
-    selectionRange = range.cloneRange();
-    showSelectedText(text, range);
-  } else {
-    removeSelectedTextDisplay();
+    try {
+      // Get the translationEnabled state from storage
+      const { translationEnabled } = await getStorageValue(
+        "translationEnabled"
+      );
+
+      let content;
+      if (translationEnabled) {
+        try {
+          content = await new Promise((resolve, reject) => {
+            chrome.runtime.sendMessage(
+              { type: "translate", text: selectedText },
+              (response) => {
+                if (chrome.runtime.lastError) {
+                  reject(chrome.runtime.lastError.message);
+                } else if (response.success) {
+                  resolve(response.text);
+                } else {
+                  reject(response.error);
+                }
+              }
+            );
+          });
+        } catch (error) {
+          console.error("翻译失败：", error);
+          content = selectedText; 
+        }
+      } else {
+        content = selectedText;
+      }
+
+      showPopup(content, range);
+    } catch (err) {
+      console.error("[Failed] Error when fetch state:", err);
+    }
   }
 });
 
-function showSelectedText(text, range) {
-  removeSelectedTextDisplay();
+// Get value from chrome storage
+function getStorageValue(key) {
+  return new Promise((resolve) => {
+    chrome.storage.sync.get([key], resolve);
+  });
+}
 
+async function showPopup(content, range) {
+  removePopup(); // Clear any existing popup
+
+  // Ensure the range has a valid rectangle
   const rect = range.getClientRects()[0];
   if (!rect) return;
 
-  displayBox = document.createElement("div");
-  displayBox.id = "selected-text-display";
-  displayBox.textContent = `📋 ${text}`;
+  // Create the popup element
+  popup = document.createElement("div");
+  popup.id = "selection-popup";
+  popup.textContent = `📋 ${content}`;
 
-  displayBox.dataset.text = text;
-
-  Object.assign(displayBox.style, {
+  // Apply styles
+  Object.assign(popup.style, {
     position: "absolute",
     left: `${rect.left + window.scrollX}px`,
-    top: `${rect.top + window.scrollY - 32}px`,
-    backgroundColor: "#4a6bff",
+    top: `${rect.top + window.scrollY - 40}px`,
+    backgroundColor: "#007bff",
     color: "white",
+    fontSize: "14px",
+    opacity: "0.95",
+    maxWidth: "300px",
+    wordWrap: "break-word",
+    whiteSpace: "normal",
     padding: "6px 12px",
     borderRadius: "6px",
     boxShadow: "0 3px 10px rgba(0,0,0,0.2)",
@@ -49,54 +93,55 @@ function showSelectedText(text, range) {
     transition: "transform 0.2s, opacity 0.2s",
   });
 
-  displayBox.addEventListener("mouseenter", () => {
+  // Add style change for hover
+  popup.addEventListener("mouseenter", () => {
     clearTimeout(autoHideTimer);
-    displayBox.style.transform = "scale(1.05)";
-    displayBox.style.opacity = "0.95";
+    popup.style.transform = "scale(1.05)";
+    popup.style.opacity = "0.9";
+  });
+  popup.addEventListener("mouseleave", () => {
+    popup.style.transform = "scale(1)";
+    popup.style.opacity = "0.95";
+    autoHideTimer = setTimeout(removePopup, 3000);
   });
 
-  displayBox.addEventListener("mouseleave", () => {
-    displayBox.style.transform = "scale(1)";
-    displayBox.style.opacity = "1";
-    autoHideTimer = setTimeout(removeSelectedTextDisplay, 3000);
-  });
-
-  displayBox.addEventListener("click", async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const copyText = displayBox.dataset.text || "";
-    console.log("[点击复制] 复制文本:", copyText);
-
-    if (!copyText) {
-      displayBox.textContent = "❌ No text to copy";
-      setTimeout(removeSelectedTextDisplay, 1000);
-      return;
-    }
+  // Click event to copy text
+  popup.addEventListener("click", async (e) => {
+    e.preventDefault(); // Prevent default click behavior
+    e.stopPropagation(); // Stop the event from propagating
 
     try {
-      await navigator.clipboard.writeText(copyText);
-      displayBox.textContent = "✅ Copied!";
+      await navigator.clipboard.writeText(content);
+      console.log("[Success] Copied:", content);
+      popup.textContent = "✅ Copied!";
       clearTimeout(autoHideTimer);
     } catch (err) {
-      console.error("[复制失败] Clipboard API异常:", err);
-      displayBox.textContent = "❌ Copy Failed";
+      console.error("[Failed] Clipboard Error:", err);
+      popup.textContent = "❌ Copy Failed";
     }
 
-    setTimeout(removeSelectedTextDisplay, 1000);
+    setTimeout(removePopup, 1000);
   });
 
-  document.body.appendChild(displayBox);
+  document.body.appendChild(popup);
+  autoHideTimer = setTimeout(removePopup, 3000);
 
-  autoHideTimer = setTimeout(removeSelectedTextDisplay, 3000);
+  // Adjust popup position
+  const boxRect = popup.getBoundingClientRect();
+  popup.style.top = `${rect.top + window.scrollY - boxRect.height - 8}px`;
 }
 
-function removeSelectedTextDisplay() {
-  if (displayBox) {
-    displayBox.remove();
-    displayBox = null;
+function removePopup() {
+  if (popup) {
+    popup.remove();
+    popup = null;
   }
-  selectedText = "";
-  selectionRange = null;
   clearTimeout(autoHideTimer);
 }
+
+// Remove the popup when clicking outside
+document.addEventListener("click", function (event) {
+  if (popup && !popup.contains(event.target)) {
+    setTimeout(removePopup, 1000);
+  }
+});
