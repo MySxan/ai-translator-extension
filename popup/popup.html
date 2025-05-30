@@ -1,56 +1,53 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-      body {
-        width: 200px;
-        padding: 12px;
-        font-family: Arial;
-      }
-      .switch {
-        position: relative;
-        display: inline-block;
-        width: 40px;
-        height: 20px;
-      }
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: #ccc;
-        transition: 0.4s;
-        border-radius: 20px;
-      }
-      .slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 16px;
-        left: 2px;
-        bottom: 2px;
-        background: white;
-        transition: 0.4s;
-        border-radius: 50%;
-      }
-      input:checked + .slider {
-        background: #4caf50;
-      }
-      input:checked + .slider:before {
-        transform: translateX(20px);
-      }
-    </style>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <h3>Translator tool</h3>
-    <label class="switch">
-      <input type="checkbox" id="translateToggle" />
-      <span class="slider"></span>
-    </label>
-    <span style="margin-left: 10px">translate mod</span>
-    <script src="https://cdn.jsdelivr.net/npm/blueimp-md5/js/md5.min.js"></script>
+    <header class="title">插件选项</header>
+
+    <div class="toggle-container">
+      <span class="toggle-label">翻译模式</span>
+
+      <label class="switch">
+        <input type="checkbox" id="translateToggle" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="api-settings">
+      <div class="api-input">
+        <label for="apiKey">API Key</label>
+        <input type="text" id="apiKey" placeholder="请填入 API 密钥" />
+      </div>
+      <div class="api-input">
+        <label for="apiUrl">API Url</label>
+        <input type="text" id="apiUrl" placeholder="请填入 API 地址" />
+      </div>
+
+      <div class="api-button-container">
+        <button id="resetSettings" title="重置设置">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-x-icon lucide-x"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+        <button id="saveSettings">保存设置</button>
+      </div>
+    </div>
+
     <script src="popup.js"></script>
   </body>
 </html>

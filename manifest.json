@@ -5,6 +5,9 @@
   "description": "A Chrome extension for AI-powered translation.",
   "host_permissions": ["https://fanyi-api.baidu.com/*"],
   "permissions": ["storage", "activeTab", "clipboardWrite", "scripting"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self' https://cdnjs.cloudflare.com"
+  },
   "background": {
     "service_worker": "background.js"
   },
