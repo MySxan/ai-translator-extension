@@ -142,6 +142,6 @@ function removePopup() {
 // Remove the popup when clicking outside
 document.addEventListener("click", function (event) {
   if (popup && !popup.contains(event.target)) {
-    setTimeout(removePopup, 1000);
+    setTimeout(removePopup, 500);
   }
 });

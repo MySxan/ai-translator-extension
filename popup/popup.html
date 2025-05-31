@@ -5,17 +5,32 @@
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <header class="title">插件选项</header>
-
-    <div class="toggle-container">
-      <span class="toggle-label">翻译模式</span>
-
-      <label class="switch">
-        <input type="checkbox" id="translateToggle" />
-        <span class="slider"></span>
-      </label>
+    <div class="icon-title">
+      <img src="../icons/icon32.png" alt="Icon" width="20" />
+      <span class="title" style="flex: 1;">翻译插件选项</span>
     </div>
 
+    <hr />
+    <div class="toggles">
+      <div class="toggle-container">
+        <span class="toggle-label">翻译模式</span>
+        <label class="switch">
+          <input type="checkbox" id="translateToggle" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-container">
+        <span class="toggle-label">翻译服务</span>
+        <select id="translateService">
+          <option value="baidu">百度翻译</option>
+          <option value="deepl">DeepL</option>
+          <option value="google">谷歌翻译</option>
+        </select>
+      </div>
+    </div>
+
+    <hr />
     <div class="api-settings">
       <div class="api-input">
         <label for="apiKey">API Key</label>
