@@ -10,6 +10,10 @@ body {
   color: #303030;
 }
 
+hr {
+  border-color: #eeeeee62;
+}
+
 .icon-title {
   display: flex;
   align-items: center;
@@ -49,9 +53,14 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #ccc;
+  background: #ddd;
   transition: 0.4s;
   border-radius: 20px;
+}
+
+.slider:hover {
+  background: #ccc;
+  transition: 150ms;
 }
 
 .slider:before {
@@ -91,6 +100,11 @@ input:checked + .slider:before {
   font-size: 14px;
 }
 
+#translateService:hover {
+  background-color: #ddd;
+  transition: 150ms;
+}
+
 /* API Setting */
 .api-settings {
   margin-top: 16px;
@@ -100,7 +114,7 @@ input:checked + .slider:before {
   margin-bottom: 8px;
 }
 
-.api-input label {
+.api-input-label {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
@@ -113,6 +127,11 @@ input:checked + .slider:before {
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 13px;
+}
+
+.api-input input:hover {
+  border-color: #4586db;
+  transition: 150ms;
 }
 
 .api-button-container {
@@ -151,6 +170,7 @@ input:checked + .slider:before {
 
 #saveSettings:hover {
   background-color: #396eb3;
+  transition: 150ms;
 }
 
 #saveSettings.disabled {
