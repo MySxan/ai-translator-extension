@@ -20,6 +20,7 @@
       "128": "icons/icon128.png"
     }
   },
+  "options_page": "settings/settings.html",
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

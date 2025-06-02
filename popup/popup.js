@@ -6,9 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveButton = document.getElementById("saveSettings");
   const resetButton = document.getElementById("resetSettings");
   const apiConfigSection = document.getElementById("apiConfigSection");
-
-  // Initialize save button state
-  updateSaveButtonState();
+  const settingsBtn = document.getElementById("settingsBtn");
 
   // read state from storage
   chrome.storage.sync.get(
@@ -23,16 +21,17 @@ document.addEventListener("DOMContentLoaded", () => {
       apiKeyInput.value = serviceConfig.apiKey || "";
       apiUrlInput.value = serviceConfig.apiUrl || "";
 
-      // Update interface
-      updateResetButtonVisibility(data.apiKey, data.apiUrl);
+      // Initialize interface
+      // toggleApiConfigSection(selectedService);
+      updateResetButtonVisibility();
       updateSaveButtonState();
-      toggleApiConfigSection(selectedService);
     }
   );
 
   // save translateToggle state
   translateToggle.addEventListener("change", () => {
     chrome.storage.sync.set({ translationEnabled: translateToggle.checked });
+    updateResetButtonVisibility();
   });
 
   // Toggle API configuration when service changes
@@ -46,9 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
       apiUrlInput.value = serviceConfig.apiUrl || "";
 
       // Update interface
-      updateResetButtonVisibility(serviceConfig.apiKey, serviceConfig.apiUrl);
+      // toggleApiConfigSection(selectedService);
+      updateResetButtonVisibility();
       updateSaveButtonState();
-      toggleApiConfigSection(selectedService);
     });
   });
 
@@ -74,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           () => {
             saveButton.textContent = "保存成功！";
+            updateResetButtonVisibility();
           }
         );
       });
@@ -83,7 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       saveButton.textContent = "保存设置";
     }, 1000);
-    updateResetButtonVisibility(apiKey, apiUrl);
   });
 
   // Reset settings when reset button is clicked
@@ -115,21 +114,33 @@ document.addEventListener("DOMContentLoaded", () => {
               saveButton.textContent = "保存设置";
             }, 1000);
 
+            // toggleApiConfigSection("baidu");
             updateSaveButtonState();
-            toggleApiConfigSection("baidu");
+            updateResetButtonVisibility();
           }
         );
       });
     }
   });
 
+  settingsBtn.addEventListener("click", () => {
+    chrome.runtime.openOptionsPage();
+  });
+
   // Update reset button visibility based on API key and URL
-  function updateResetButtonVisibility(apiKey, apiUrl) {
-    if (apiKey || apiUrl) {
-      resetButton.style.display = "flex";
-    } else {
-      resetButton.style.display = "none";
-    }
+  function updateResetButtonVisibility() {
+    chrome.storage.sync.get(["apiConfig"], (result) => {
+      const config = result.apiConfig || {};
+      const hasStoredConfig = Object.keys(config).some((service) => {
+        const serviceConfig = config[service];
+        return (
+          (serviceConfig.apiKey && serviceConfig.apiKey.trim() !== "") ||
+          (serviceConfig.apiUrl && serviceConfig.apiUrl.trim() !== "")
+        );
+      });
+
+      resetButton.style.display = hasStoredConfig ? "flex" : "none";
+    });
   }
 
   // Update save button state based on API key and URL inputs
@@ -146,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Show or hide API configuration section based on selected service
   function toggleApiConfigSection(service) {
     apiConfigSection.style.display = "block";
   }
