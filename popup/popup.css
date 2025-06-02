@@ -10,12 +10,39 @@ body {
   color: #303030;
 }
 
+hr {
+  border-color: #eeeeee62;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
 .icon-title {
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
   gap: 8px;
-  margin-bottom: 12px;
+}
+
+.settings-icon {
+  border: none;
+  background-color: transparent;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.settings-icon:hover {
+  background-color: #ddd;
+  transition: 200ms;
 }
 
 .toggles {
@@ -23,8 +50,9 @@ body {
 }
 
 .title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
+  font-family: "Century Gothic", "Glow Sans J", sans-serif;
 }
 
 .toggle-container {
@@ -49,9 +77,14 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #ccc;
+  background: #ddd;
   transition: 0.4s;
   border-radius: 20px;
+}
+
+.slider:hover {
+  background: #ccc;
+  transition: 200ms;
 }
 
 .slider:before {
@@ -67,7 +100,7 @@ body {
 }
 
 input:checked + .slider {
-  background: #4586db;
+  background: #ff8336;
 }
 
 input:checked + .slider:before {
@@ -77,18 +110,20 @@ input:checked + .slider:before {
 .toggle-label {
   font-size: 14px;
   font-weight: 500;
-  padding-right: 100px;
 }
 
 #translateService {
-  flex: 1;
-  width: 100%;
   padding: 8px;
-  border: 0px solid #ddd;
+  border: none;
   border-radius: 4px;
   background-color: transparent;
   box-sizing: border-box;
   font-size: 14px;
+}
+
+#translateService:hover {
+  background-color: #ddd;
+  transition: 200ms;
 }
 
 /* API Setting */
@@ -100,7 +135,7 @@ input:checked + .slider:before {
   margin-bottom: 8px;
 }
 
-.api-input label {
+.api-input-label {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
@@ -115,10 +150,15 @@ input:checked + .slider:before {
   font-size: 13px;
 }
 
+.api-input input:hover {
+  border-color: #ff8336;
+  transition: 200ms;
+}
+
 .api-button-container {
   display: flex;
-  gap: 12px;
-  margin-top: 12px;
+  gap: 14px;
+  margin-top: 14px;
 }
 
 #resetSettings {
@@ -136,13 +176,14 @@ input:checked + .slider:before {
 
 #resetSettings:hover {
   background-color: #d32f2f;
+  transition: 200ms;
 }
 
 #saveSettings {
   flex: 1;
   width: 100%;
   padding: 6px;
-  background-color: #4586db;
+  background-color: #ff8336;
   color: white;
   border: none;
   border-radius: 4px;
@@ -150,7 +191,8 @@ input:checked + .slider:before {
 }
 
 #saveSettings:hover {
-  background-color: #396eb3;
+  background-color: #df7330;
+  transition: 200ms;
 }
 
 #saveSettings.disabled {
