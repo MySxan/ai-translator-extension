@@ -16,6 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.storage.sync.set({ translationEnabled: translateToggle.checked });
   });
 
+  // save translateService state
+  translateService.addEventListener("change", () => {
+    chrome.storage.sync.set({ translateService: translateService.value });
+  });
+  
   // Open settings page
   settingsBtn.addEventListener("click", () => {
     chrome.runtime.openOptionsPage();
