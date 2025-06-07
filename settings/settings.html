@@ -8,8 +8,8 @@
   <body>
     <div class="title-container">
       <span class="icon-title">
-        <img src="../icons/icon32.png" alt="Icon" width="20" />
-        <span class="title">InLang 映浪翻译</span>
+        <img src="../icons/icon128.png" alt="Icon" width="30" />
+        <span class="title">InLang</span>
       </span>
       
     </div>
@@ -36,13 +36,50 @@
 
     <hr />
     <div class="api-settings">
+      <h3>百度翻译</h3>
       <div class="api-input">
-        <span class="api-input-label">API Key</span>
-        <input type="text" id="apiKey" placeholder="请填入 API 密钥" />
+        <span class="api-input-label">APP ID</span>
+        <input type="text" id="apiKey" placeholder="请填入 APP ID" />
       </div>
       <div class="api-input">
-        <span class="api-input-label">API Url</span>
-        <input type="text" id="apiUrl" placeholder="请填入 API 地址" />
+        <span class="api-input-label">API 密钥</span>
+        <input type="text" id="apiUrl" placeholder="请填入 API 密钥" />
+      </div>
+
+      <div class="api-button-container">
+        <button id="resetSettings" title="重置设置">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-x-icon lucide-x"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+        <button id="saveSettings">保存设置</button>
+      </div>
+    </div>
+
+    <div class="api-settings">
+      <h3>DeepL</h3>
+      <div class="toggle-container">
+        <span class="toggle-label">翻译服务</span>
+        <select id="translateService">
+          <option value="free">FREE</option>
+          <option value="pro">PRO</option>
+        </select>
+      </div>
+      <div class="api-input">
+        <span class="api-input-label">API 密钥</span>
+        <input type="text" id="apiUrl" placeholder="请填入 API 密钥" />
       </div>
 
       <div class="api-button-container">

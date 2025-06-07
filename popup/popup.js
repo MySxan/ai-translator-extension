@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   translateService.addEventListener("change", () => {
     chrome.storage.sync.set({ translateService: translateService.value });
   });
-  
+
   // Open settings page
   settingsBtn.addEventListener("click", () => {
     chrome.runtime.openOptionsPage();

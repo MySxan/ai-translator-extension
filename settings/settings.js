@@ -32,11 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateResetButtonVisibility();
   });
 
-  // save translateService state
-  translateService.addEventListener("change", () => {
-    chrome.storage.sync.set({ translateService: translateService.value });
-  });
-
   // Toggle API configuration when service changes
   translateService.addEventListener("change", () => {
     const selectedService = translateService.value;

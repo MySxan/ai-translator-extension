@@ -2,9 +2,10 @@ body {
   background-color: rgb(250, 250, 250);
   padding: 100px;
   margin: 0;
+  width: 600px;
   font-family: Arial;
   overflow: hidden;
-  font-size: 14px;
+  font-size: 16px;
   color: #303030;
 }
 
@@ -88,7 +89,6 @@ input:checked + .slider:before {
 }
 
 .toggle-label {
-  font-size: 14px;
   font-weight: 500;
 }
 
@@ -98,7 +98,7 @@ input:checked + .slider:before {
   border-radius: 4px;
   background-color: transparent;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 #translateService:hover {
@@ -113,11 +113,15 @@ input:checked + .slider:before {
 
 .api-input {
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .api-input-label {
   display: block;
-  margin-bottom: 8px;
+  width: 100px;
+
   font-weight: 500;
 }
 
@@ -127,7 +131,7 @@ input:checked + .slider:before {
   border: 1px solid #ddd;
   border-radius: 4px;
   box-sizing: border-box;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .api-input input:hover {
@@ -137,13 +141,13 @@ input:checked + .slider:before {
 
 .api-button-container {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   margin-top: 14px;
 }
 
 #resetSettings {
-  width: 31px;
-  height: 31px;
+  width: 36px;
+  height: 36px;
   background-color: #f44336;
   color: white;
   border: none;
@@ -168,6 +172,7 @@ input:checked + .slider:before {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 16px;
 }
 
 #saveSettings:hover {
